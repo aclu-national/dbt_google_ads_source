@@ -8,7 +8,7 @@ sources:
     loader: Fivetran
     loaded_at_field: _fivetran_synced
 
-    freshness: 
+    freshness:
       warn_after: {count: 48, period: hour}
       error_after: {count: 168, period: hour}
     config:
@@ -145,7 +145,7 @@ sources:
           - name: status
             description: The current status of the ad group criterion.
           - name: keyword_match_type
-            description: The match type which dictate how closely the keyword needs to match with the user’s search query so that the ad can be considered for the auction. 
+            description: The match type which dictate how closely the keyword needs to match with the user’s search query so that the ad can be considered for the auction.
           - name: keyword_text
             description: The text used within the keyword criterion that is being matched against.
 
@@ -230,3 +230,27 @@ sources:
             description: "{{ doc('cost') }}"
           - name: impressions
             description: "{{ doc('impressions') }}"
+      - name: campaign_network_state_stats
+        description: A custom report at the network and state level.
+        identifier: "{{ var('google_ads_account_stats_identifier', 'campaign_network_state_stats') }}"
+        columns:
+          - name: customer_id
+            description: "{{ doc('external_customer_id') }}"
+          - name: date
+            description: "{{ doc('date') }}"
+          - name: campaign_id
+            description: "{{ doc('campaign_id') }}"
+          - name: campaign_name
+            description: "{{ doc('campaign_name') }}"
+          - name: ad_network_type
+            description: "{{ doc('ad_network_type') }}"
+          - name: clicks
+            description: "{{ doc('clicks') }}"
+          - name: cost_micros
+            description: "{{ doc('cost') }}"
+          - name: impressions
+            description: "{{ doc('impressions') }}"
+          - name: _fivetran_id
+            description: The unique ID of the keyword record.
+          - name: geo_target_state
+            description: The GeoTargetConstants ID for the state where the ads were served.

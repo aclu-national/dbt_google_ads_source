@@ -14,6 +14,7 @@ vars:
   campaign_stats: "{{ source('google_ads','campaign_stats') }}"
   keyword_stats: "{{ source('google_ads','keyword_stats') }}"
   account_stats: "{{ source('google_ads','account_stats') }}"
+  campaign_network_state_stats: " {{source('google_ads', 'campaign_network_state_stats') }}"
 
   google_ads__ad_group_stats_passthrough_metrics: []
   google_ads__ad_stats_passthrough_metrics: []
