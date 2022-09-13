@@ -13,7 +13,7 @@ fields as (
         {{
             fivetran_utils.fill_staging_columns(
                 source_columns=adapter.get_columns_in_relation(ref('stg_google_ads__campaign_network_state_stats_tmp')),
-                staging_columns=get_ad_stats_columns()
+                staging_columns=get_campaign_network_state_stats_columns()
             )
         }}
 
