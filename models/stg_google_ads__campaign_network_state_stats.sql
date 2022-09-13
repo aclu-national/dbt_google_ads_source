@@ -26,7 +26,7 @@ states as (
       *
     from {{ ref('google_ads_state_mapping') }}
 
-)
+),
 
 final as (
 
