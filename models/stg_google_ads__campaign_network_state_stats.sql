@@ -24,7 +24,7 @@ states as (
 
     select
       *
-    from {{ ref('google_ads_state_mapping') }}
+    from {{ ref('google_ads__geo_target_states') }}
 
 ),
 
@@ -36,7 +36,8 @@ final as (
         fields.campaign_name,
         fields.date as date_day,
         fields.ad_network_type,
-        states.state_name,
+        fields.geo_target_state as geo_target_state_id,
+        case when states.country_code = 'US' then states.state_name else 'Non-US' end as state_name,
         fields.customer_currency_code,
         fields.clicks,
         fields.cost_micros / 1000000.0 as spend,
