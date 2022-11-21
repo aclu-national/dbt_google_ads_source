@@ -254,3 +254,26 @@ sources:
             description: The unique ID of the keyword record.
           - name: geo_target_state
             description: The GeoTargetConstants ID for the state where the ads were served.
+      - name: bpi_backfill__campaign_network_state_stats
+        description: A historical report of BPI-owned campaigns, meant to be analagous to the campaign_network_state_stats report. Backfilled from CSV provided by paid media team.
+        #identifier: "{{ var('google_ads_account_stats_identifier', 'campaign_network_state_stats') }}"
+        columns:
+          - name: account_id
+            description: "{{ doc('external_customer_id') }}"
+          - name: campaign
+            description: "{{ doc('campaign_name') }}"
+          - name: campaign_id
+            description: "{{ doc('campaign_id') }}"
+          - name: campaign_type
+            description: "{{ doc('ad_network_type') }}"
+          - name: clicks
+            description: "{{ doc('clicks') }}"
+          - name: cost
+            description: "{{ doc('cost') }}"
+          - name: currency_code
+          - name: day
+            description: "{{ doc('date') }}"
+          - name: impr
+            description: "{{ doc('impressions') }}"
+          - name: state_matched
+            description: The name of the state where the ad was served
