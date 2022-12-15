@@ -24,19 +24,27 @@ states as (
 
     select
       *
-    from {{ ref('google_ads_state_mapping') }}
+    from {{ ref('google_ads__state_mappings') }}
 
 ),
 
-final as (
+bpi as (
 
     select
-        fields.customer_id as account_id,
-        fields.campaign_id,
+      *
+    from {{ ref('stg_google_ads__bpi_backfill__campaign_network_state_stats') }}
+
+),
+
+fivetran as (
+
+    select
+        fields.customer_id::bigint as account_id,
+        fields.campaign_id::bigint as campaign_id,
         fields.campaign_name,
         fields.date as date_day,
         fields.ad_network_type,
-        states.state_name,
+        states.name as state_name,
         fields.customer_currency_code,
         fields.clicks,
         fields.cost_micros / 1000000.0 as spend,
@@ -45,7 +53,35 @@ final as (
 
     from fields
     left join states on
-      regexp_substr(fields.geo_target_state, '\\d+') = states.geo_target_state_id
-)
+      regexp_substr(fields.geo_target_state, '\\d+') = states.criteria_id
+),
 
+unioned as (
+
+    select *, 'Backfill' as sync_source from bpi
+
+      union all
+
+    select *, 'Fivetran' as sync_source from fivetran
+
+),
+
+final as (
+
+    select
+      account_id,
+      campaign_id,
+      campaign_name,
+      sync_source,
+      date_day,
+      ad_network_type,
+      state_name,
+      customer_currency_code,
+      sum(clicks) as clicks,
+      sum(spend) as spend,
+      sum(impressions) as impressions
+    from unioned
+    {{ dbt_utils.group_by(n = 8) }}
+
+)
 select * from final

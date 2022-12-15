@@ -103,7 +103,7 @@ models:
         description: "{{ doc('utm_content') }}"
       - name: utm_term
         description: "{{ doc('utm_term') }}"
-        
+
   - name: stg_google_ads__ad_stats
     description: Each record represents the daily performance of an ad in Google Ads broken down to the ad network, device type, and ad_group_id.
     tests:
@@ -202,7 +202,7 @@ models:
       - name: status
         description: The current status of the ad group criterion.
       - name: keyword_match_type
-        description: The match type which dictate how closely the keyword needs to match with the user’s search query so that the ad can be considered for the auction. 
+        description: The match type which dictate how closely the keyword needs to match with the user’s search query so that the ad can be considered for the auction.
       - name: keyword_text
         description: The text used within the keyword criterion that is being matched against.
       - name: is_most_recent_record
@@ -331,3 +331,41 @@ models:
         description: "{{ doc('cost') }}"
       - name: impressions
         description: "{{ doc('impressions') }}"
+
+  - name: stg_google_ads__campaign_network_state_stats
+    description: Each record represents the daily performance of an account in Google Ads broken down to the ad network and device type.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - account_id
+            - campaign_id
+            - ad_network_type
+            - state_name
+            - date_day
+    columns:
+      - name: account_id
+        description: "{{ doc('external_customer_id') }}"
+        tests:
+          - not_null
+      - name: date_day
+        description: "{{ doc('date') }}"
+        tests:
+          - not_null
+      - name: ad_network_type
+        description: "{{ doc('ad_network_type') }}"
+      - name: campaign_id
+        description: "{{ doc('campaign_id') }}"
+      - name: campaign_name
+        description: "{{ doc('campaign_name') }}"
+      - name: state_name
+        description: The state where the campaign content was served.
+      - name: customer_currency_code
+        description: The currency of the spend reported.
+      - name: clicks
+        description: "{{ doc('clicks') }}"
+      - name: spend
+        description: "{{ doc('cost') }}"
+      - name: impressions
+        description: "{{ doc('impressions') }}"
+      - name: sync_source
+        description: Whether the record originated from the historical BPI backfill or from the ACLU Fivetran sync.
