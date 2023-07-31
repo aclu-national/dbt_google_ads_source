@@ -1,3 +1,61 @@
+# dbt_google_ads_source v0.9.2
+## 🐛 Bug fix
+- Updated configuration to allow the source database to be set as `target.database` when using Databricks. ([#38](https://github.com/fivetran/dbt_google_ads_source/pull/38))
+
+## Under the Hood:
+- Incorporated the new `fivetran_utils.drop_schemas_automation` macro into the end of each Buildkite integration test job. ([#37](https://github.com/fivetran/dbt_google_ads_source/pull/37))
+- Updated the pull request [templates](/.github). ([#37](https://github.com/fivetran/dbt_google_ads_source/pull/37))
+
+# dbt_google_ads_source v0.9.1
+## Under the Hood Updates
+- The dbt-expectations [regex_inst macro received an update](https://github.com/calogica/dbt-expectations/pull/247) that included a new `flags` argument. This argument is not included in the replica macro located within this package. As such, the update needs to be reflected in order to allow the downstream references of the macro to succeed. ([#35](https://github.com/fivetran/dbt_google_ads_source/pull/35))
+# dbt_google_ads_source v0.9.0
+
+## 🚨 Breaking Changes 🚨:
+[PR #31](https://github.com/fivetran/dbt_google_ads_source/pull/31) includes the following breaking changes:
+- Dispatch update for dbt-utils to dbt-core cross-db macros migration. Specifically `{{ dbt_utils.<macro> }}` have been updated to `{{ dbt.<macro> }}` for the below macros:
+    - `any_value`
+    - `bool_or`
+    - `cast_bool_to_text`
+    - `concat`
+    - `date_trunc`
+    - `dateadd`
+    - `datediff`
+    - `escape_single_quotes`
+    - `except`
+    - `hash`
+    - `intersect`
+    - `last_day`
+    - `length`
+    - `listagg`
+    - `position`
+    - `replace`
+    - `right`
+    - `safe_cast`
+    - `split_part`
+    - `string_literal`
+    - `type_bigint`
+    - `type_float`
+    - `type_int`
+    - `type_numeric`
+    - `type_string`
+    - `type_timestamp`
+    - `array_append`
+    - `array_concat`
+    - `array_construct`
+- For `current_timestamp` and `current_timestamp_in_utc` macros, the dispatch AND the macro names have been updated to the below, respectively:
+    - `dbt.current_timestamp_backcompat`
+    - `dbt.current_timestamp_in_utc_backcompat`
+- `packages.yml` has been updated to reflect new default `fivetran/fivetran_utils` version, previously `[">=0.3.0", "<0.4.0"]` now `[">=0.4.0", "<0.5.0"]`.
+- `packages.yml` has been updated to reflect the most up to date version of dbt-expectations `[">=0.8.0", "<0.9.0"]`.
+- The `regexp_instr` macro has been added to the macros folder as a shim for spark adapters. Additional details for how to disaptch the macro have been added to the README Databricks compatibility section.
+
+# dbt_google_ads_source v0.8.1
+
+## Updates
+- Added `'databricks'` in `src_google_ads.yml` for database configs in order to be compatible for an earlier release of the dbt-databricks adapter. [#32](https://github.com/fivetran/dbt_google_ads_source/pull/32)
+- Updated `README.md` to reflect `dbt-labs/spark_utils` in dependency matrix. [#32](https://github.com/fivetran/dbt_google_ads_source/pull/32)
+
 # dbt_google_ads_source v0.8.0
 ## 🚨 Breaking Changes 🚨
 - The `adwords` api version of the package has been fully removed. As the Fivetran Google Ads connector now requires the Google Ads API, this functionality is no longer used. ([#29](https://github.com/fivetran/dbt_google_ads_source/pull/29))
